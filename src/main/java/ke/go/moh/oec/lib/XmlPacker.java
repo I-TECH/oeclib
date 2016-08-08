@@ -62,12 +62,13 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 /**
- * Packs message data into XML strings, and unpacks XML strings into message data.
+ * Packs message data into XML strings, and unpacks XML strings into message
+ * data.
  * <p>
  * Note that all the methods in this class start with "pack", "unpack" or
  * "common". "pack" methods are used only for packing XML messages. "unpack"
- * methods are used only for unpacking XML messages. "common" methods are
- * used by both.
+ * methods are used only for unpacking XML messages. "common" methods are used
+ * by both.
  *
  * @author Purity Chemutai
  * @author Jim Grace
@@ -108,6 +109,10 @@ class XmlPacker {
     private static final String OID_CCC_UNIVERSAL_UNIQUE_ID = OID_ROOT + "5.3";
     private static final String OID_CCC_LOCAL_PATIENT_ID = OID_ROOT + "5.4";
     private static final String KISUMU_HDSS_ID = OID_ROOT + "5.5";
+    private static final String OID_NUPI = OID_ROOT + "5.6";
+    private static final String OID_TEL_NO = OID_ROOT + "5.7";
+    private static final String OID_NATIONAL_ID = OID_ROOT + "5.8";
+    private static final String OID_PARENT_TEL_NO = OID_ROOT + "5.9";
     private static final String OID_REGULAR_VISIT_DATE = OID_ROOT + "6.1.1";
     private static final String OID_REGULAR_VISIT_ADDRESS = OID_ROOT + "6.1.2";
     private static final String OID_REGULAR_VISIT_FACILITY_NAME = OID_ROOT + "6.1.3";
@@ -217,10 +222,9 @@ class XmlPacker {
     /**
      * Packs a generic HL7 PersonRequest message into a <code>Document</code>.
      * <p>
-     * Several of the HL7 person-related messages use the same formatting
-     * rules, even though the templates differ. (The templates differ only
-     * in the boilerplate parts that do not concern us directly.)
-     * These messages are:
+     * Several of the HL7 person-related messages use the same formatting rules,
+     * even though the templates differ. (The templates differ only in the
+     * boilerplate parts that do not concern us directly.) These messages are:
      * <p>
      * CREATE PERSON <br>
      * MODIFY PERSON <br>
@@ -255,10 +259,9 @@ class XmlPacker {
     /**
      * Packs a generic HL7 PersonResponse message into a <code>Document</code>.
      * <p>
-     * Several of the HL7 person-related messages use the same formatting
-     * rules, even though the templates differ. (The templates differ only
-     * in the boilerplate parts that do not concern us directly.)
-     * These messages are:
+     * Several of the HL7 person-related messages use the same formatting rules,
+     * even though the templates differ. (The templates differ only in the
+     * boilerplate parts that do not concern us directly.) These messages are:
      * <p>
      * CREATE PERSON ACCEPTED <br>
      * MODIFY PERSON ACCEPTED
@@ -294,14 +297,15 @@ class XmlPacker {
     /**
      * Packs work messages.
      *
-     * Several of the Work-related messages use the same formatting
-     * rules, even though the templates differ only on the root tag.
+     * Several of the Work-related messages use the same formatting rules, even
+     * though the templates differ only on the root tag.
      *
      * These messages are:
      * <p>
      * GET WORK <br>
      * WORK DONE <br>
      * REASSIGN WORK
+     *
      * @param m notification message contents to pack
      * @return packed notification messages
      */
@@ -330,8 +334,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a Find Person message into a <code>Document</code>.
-     * Uses HL7 Patient Registry Find Candidates Query, PRPA_IN201305UV02.
+     * Packs a Find Person message into a <code>Document</code>. Uses HL7
+     * Patient Registry Find Candidates Query, PRPA_IN201305UV02.
      *
      * @param m search message contents to pack
      * @return packed search message
@@ -375,6 +379,10 @@ class XmlPacker {
             packLivingSubjectPersonIdentifiers(q, p, OID_CCC_UNIVERSAL_UNIQUE_ID, PersonIdentifier.Type.cccUniqueId);
             packLivingSubjectPersonIdentifiers(q, p, OID_CCC_LOCAL_PATIENT_ID, PersonIdentifier.Type.cccLocalId);
             packLivingSubjectPersonIdentifiers(q, p, KISUMU_HDSS_ID, PersonIdentifier.Type.kisumuHdssId);
+            packLivingSubjectPersonIdentifiers(q, p, OID_NUPI, PersonIdentifier.Type.nupi);
+            packLivingSubjectPersonIdentifiers(q, p, OID_TEL_NO, PersonIdentifier.Type.telNo);
+            packLivingSubjectPersonIdentifiers(q, p, OID_NATIONAL_ID, PersonIdentifier.Type.nationalId);
+            packLivingSubjectPersonIdentifiers(q, p, OID_PARENT_TEL_NO, PersonIdentifier.Type.parentTelNo);
             packLivingSubjectFingerprints(q, p, OID_FINGERPRINT_LEFT_INDEX, Fingerprint.Type.leftIndexFinger);
             packLivingSubjectFingerprints(q, p, OID_FINGERPRINT_LEFT_MIDDLE, Fingerprint.Type.leftMiddleFinger);
             packLivingSubjectFingerprints(q, p, OID_FINGERPRINT_LEFT_RING, Fingerprint.Type.leftRingFinger);
@@ -386,8 +394,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a Find Person Response message into a <code>Document</code>.
-     * Uses HL7 Patient Registry Find Candidates Query Response, PRPA_IN201306UV02.
+     * Packs a Find Person Response message into a <code>Document</code>. Uses
+     * HL7 Patient Registry Find Candidates Query Response, PRPA_IN201306UV02.
      *
      * @param m search message contents to pack
      * @return packed response message
@@ -435,7 +443,8 @@ class XmlPacker {
     /**
      * Packs one of the candidates to return in a FindPerson response message.
      *
-     * @param e top element of the subtree to contain the details for the candidate.
+     * @param e top element of the subtree to contain the details for the
+     * candidate.
      * @param p candidate person information.
      */
     private void packCandidate(Element e, Person p) {
@@ -445,8 +454,9 @@ class XmlPacker {
     }
 
     /**
-     * Packs a standard header for a HL7 V3 message.
-     * Standard header elements include message id, and receiver and sender addresses and names.
+     * Packs a standard header for a HL7 V3 message. Standard header elements
+     * include message id, and receiver and sender addresses and names.
+     *
      * @param root root of document template to fill in
      * @param m message parameters containing data to fill in
      */
@@ -462,7 +472,9 @@ class XmlPacker {
 
     /**
      * Packs person information into a <code>Document</code> subtree
-     * @param e head of the <code>Document</code> subtree in which this person is to be packed
+     *
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is to be packed
      * @param p person data to pack into the subtree
      */
     private void packPerson(Element e, Person p) {
@@ -503,6 +515,10 @@ class XmlPacker {
         packPersonIdentifiers(e, p, OID_CCC_UNIVERSAL_UNIQUE_ID, PersonIdentifier.Type.cccUniqueId);
         packPersonIdentifiers(e, p, OID_CCC_LOCAL_PATIENT_ID, PersonIdentifier.Type.cccLocalId);
         packPersonIdentifiers(e, p, KISUMU_HDSS_ID, PersonIdentifier.Type.kisumuHdssId);
+        packPersonIdentifiers(e, p, OID_NUPI, PersonIdentifier.Type.nupi);
+        packPersonIdentifiers(e, p, OID_TEL_NO, PersonIdentifier.Type.telNo);
+        packPersonIdentifiers(e, p, OID_NATIONAL_ID, PersonIdentifier.Type.nationalId);
+        packPersonIdentifiers(e, p, OID_PARENT_TEL_NO, PersonIdentifier.Type.parentTelNo);
         packFingerprints(e, p, OID_FINGERPRINT_LEFT_INDEX, Fingerprint.Type.leftIndexFinger);
         packFingerprints(e, p, OID_FINGERPRINT_LEFT_MIDDLE, Fingerprint.Type.leftMiddleFinger);
         packFingerprints(e, p, OID_FINGERPRINT_LEFT_RING, Fingerprint.Type.leftRingFinger);
@@ -512,18 +528,20 @@ class XmlPacker {
     }
 
     /**
-     * Packs a person's name. For findPerson the tagname containing the name elements
-     * is "livingSubjectName". For other person messages the tagName is "name".
+     * Packs a person's name. For findPerson the tagname containing the name
+     * elements is "livingSubjectName". For other person messages the tagName is
+     * "name".
      * <p>
-     * The first and middle names are packed in two consecutive &lt;given&gt; nodes.
-     * The last name is packed in the &lt;family&gt; node.
-     * If none of the names are present, remove the whole &lt;name&gt; tag.
-     * Otherwise, remove the tag for any part of the name that is not present.
-     * The exception to this is if the first name is absent and the middle name
-     * is present, keep the first &lt;given&gt; node, but pack it with an
-     * empty string. That way the middle name will still go in the second &lt;given&gt; tag.
+     * The first and middle names are packed in two consecutive &lt;given&gt;
+     * nodes. The last name is packed in the &lt;family&gt; node. If none of the
+     * names are present, remove the whole &lt;name&gt; tag. Otherwise, remove
+     * the tag for any part of the name that is not present. The exception to
+     * this is if the first name is absent and the middle name is present, keep
+     * the first &lt;given&gt; node, but pack it with an empty string. That way
+     * the middle name will still go in the second &lt;given&gt; tag.
      *
-     * @param e head of the <code>Document</code> subtree in which this person is to be packed
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is to be packed
      * @param p person data to pack into the subtree
      * @param tagName name of the enclosing element for the person's name
      */
@@ -571,11 +589,14 @@ class XmlPacker {
     /**
      * Packs visit information into a person subtree of a <code>Document</code>
      *
-     * @param e head of the <code>Document</code> subtree in which this person is to be packed
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is to be packed
      * @param v visit information to pack
      * @param oidVisitDate OID for the XML id tag containing the visit date
-     * @param oidVisitAddress OID for the XML id tag containing the visit address
-     * @param oidVisitFacilityName OID for the XML id tag containing the facility name
+     * @param oidVisitAddress OID for the XML id tag containing the visit
+     * address
+     * @param oidVisitFacilityName OID for the XML id tag containing the
+     * facility name
      */
     private void packVisit(Element e, Visit v, String oidVisitDate, String oidVisitAddress, String oidVisitFacilityName) {
         if (v != null) {
@@ -590,19 +611,22 @@ class XmlPacker {
     }
 
     /**
-     * Packs all person identifiers of a given type into a person subtree of a <code>Document</code>
+     * Packs all person identifiers of a given type into a person subtree of a
+     * <code>Document</code>
      * <p>
-     * Searches through all the identifiers for a person to find identifiers of the given
-     * type. The first such identifier replaces the template value. Subsequent identifiers
-     * are inserted into clones of the template value. If there is no identifier of the given type,
-     * the template value is removed.
+     * Searches through all the identifiers for a person to find identifiers of
+     * the given type. The first such identifier replaces the template value.
+     * Subsequent identifiers are inserted into clones of the template value. If
+     * there is no identifier of the given type, the template value is removed.
      * <p>
      * The patient registry ID type is a special case. It doesn't come from the
      * list of identifiers, but rather from person.personGuid.
      *
-     * @param subtree head of the <code>Document</code> subtree in which this person is to be packed
+     * @param subtree head of the <code>Document</code> subtree in which this
+     * person is to be packed
      * @param p person information containing the list of identifiers
-     * @param oidPersonIdentifier the XML template OID for this person identifier type
+     * @param oidPersonIdentifier the XML template OID for this person
+     * identifier type
      * @param type the person identifier type
      */
     private void packPersonIdentifiers(Element subtree, Person p, String oidPersonIdentifier, PersonIdentifier.Type type) {
@@ -640,16 +664,20 @@ class XmlPacker {
     }
 
     /**
-     * Packs all person identifiers of a given type into a livingSubjectId subtree of a findPrson request.
+     * Packs all person identifiers of a given type into a livingSubjectId
+     * subtree of a findPrson request.
      * <p>
-     * Searches through all the identifiers for a person to find identifiers of the given
-     * type. The first such identifier replaces the livingSubjectId template. Subsequent identifiers
-     * are inserted into clones of the template. If there is no identifier of the given type,
-     * the livingSubjectId template is removed.
+     * Searches through all the identifiers for a person to find identifiers of
+     * the given type. The first such identifier replaces the livingSubjectId
+     * template. Subsequent identifiers are inserted into clones of the
+     * template. If there is no identifier of the given type, the
+     * livingSubjectId template is removed.
      *
-     * @param subtree head of the <code>Document</code> subtree in which this person is to be packed
+     * @param subtree head of the <code>Document</code> subtree in which this
+     * person is to be packed
      * @param p person information containing the list of identifiers
-     * @param oidPersonIdentifier the XML template OID for this person identifier type
+     * @param oidPersonIdentifier the XML template OID for this person
+     * identifier type
      * @param type the person identifier type
      */
     private void packLivingSubjectPersonIdentifiers(Element subtree, Person p, String oidPersonIdentifier, PersonIdentifier.Type type) {
@@ -686,19 +714,22 @@ class XmlPacker {
     }
 
     /**
-     * Packs all fingerprints of a given type into a person subtree of a <code>Document</code>
+     * Packs all fingerprints of a given type into a person subtree of a
+     * <code>Document</code>
      * <p>
-     * Searches through through the person data for all fingerprints of the given type.
-     * The first such fingerprint replaces the template value. Subsequent fingerprints
-     * of the same type are inserted into clones of the template value. If there is no
-     * fingerprint of this type, the template for fingerprints of this type is removed.
+     * Searches through through the person data for all fingerprints of the
+     * given type. The first such fingerprint replaces the template value.
+     * Subsequent fingerprints of the same type are inserted into clones of the
+     * template value. If there is no fingerprint of this type, the template for
+     * fingerprints of this type is removed.
      * <p>
-     * Note that we don't really expect multiple fingerprints of the same type in the
-     * same message. But the list of fingerprints in the <code>Person</code> object
-     * allows for this possibility, as does the XML message template. So this
-     * method also allows for this possibility.
+     * Note that we don't really expect multiple fingerprints of the same type
+     * in the same message. But the list of fingerprints in the
+     * <code>Person</code> object allows for this possibility, as does the XML
+     * message template. So this method also allows for this possibility.
      *
-     * @param subtree head of the <code>Document</code> subtree in which this person is to be packed
+     * @param subtree head of the <code>Document</code> subtree in which this
+     * person is to be packed
      * @param p person information containing the list of identifiers
      * @param oidFingerprint the XML template OID for this fingerprint type
      * @param type the fingerprint type
@@ -730,19 +761,22 @@ class XmlPacker {
     }
 
     /**
-     * Packs all fingerprints of a given type into a livingSubjectId subtree of a findPrson request.
+     * Packs all fingerprints of a given type into a livingSubjectId subtree of
+     * a findPrson request.
      * <p>
-     * Searches through through the person data for all fingerprints of the given type.
-     * The first such fingerprint replaces the livingSubjectId template. Subsequent fingerprints
-     * of the same type are inserted into clones of the template. If there is no
-     * fingerprint of this type, the template for fingerprints of this type is removed.
+     * Searches through through the person data for all fingerprints of the
+     * given type. The first such fingerprint replaces the livingSubjectId
+     * template. Subsequent fingerprints of the same type are inserted into
+     * clones of the template. If there is no fingerprint of this type, the
+     * template for fingerprints of this type is removed.
      * <p>
-     * Note that we don't really expect multiple fingerprints of the same type in the
-     * same message. But the list of fingerprints in the <code>Person</code> object
-     * allows for this possibility, as does the XML message template. So this
-     * method also allows for this possibility.
+     * Note that we don't really expect multiple fingerprints of the same type
+     * in the same message. But the list of fingerprints in the
+     * <code>Person</code> object allows for this possibility, as does the XML
+     * message template. So this method also allows for this possibility.
      *
-     * @param subtree head of the <code>Document</code> subtree in which this person is to be packed
+     * @param subtree head of the <code>Document</code> subtree in which this
+     * person is to be packed
      * @param p person information containing the list of identifiers
      * @param oidFingerprint the XML template OID for this fingerprint type
      * @param type the fingerprint type
@@ -782,7 +816,9 @@ class XmlPacker {
 
     /**
      * Packs related person information into a <code>Document</code> subtree
-     * @param subtree head of the <code>Document</code> subtree in which this person is to be packed
+     *
+     * @param subtree head of the <code>Document</code> subtree in which this
+     * person is to be packed
      * @param p person data to pack into the subtree
      */
     private void packRelatedPersons(Element subtree, Person p) {
@@ -812,11 +848,10 @@ class XmlPacker {
     }
 
     /**
-     * Clones an element for packing additional values. Adds the element
-     * as a new child to the same parent, placing it just after the
-     * element that is cloned. If there is white space preceeding the
-     * element to be cloned, that white space is also cloned, to
-     * preserve formatting.
+     * Clones an element for packing additional values. Adds the element as a
+     * new child to the same parent, placing it just after the element that is
+     * cloned. If there is white space preceeding the element to be cloned, that
+     * white space is also cloned, to preserve formatting.
      *
      * @param e the element to clone
      * @return the cloned element
@@ -859,15 +894,14 @@ class XmlPacker {
      *     </(tag)>
      *     ....
      * </subtree>
-     * } </pre>
-     * Finds the "value" element within the block and inserts the
-     * value into the named attribute.
+     * } </pre> Finds the "value" element within the block and inserts the value
+     * into the named attribute.
      *
      * @param subtree Document subtree in which to look for the element
      * @param tag name of the element under which to pack the value
      * @param attribute name of the element attribute to receive the value
-     * @param value value to place in the attribute. If null, the element
-     * is removed from the template.
+     * @param value value to place in the attribute. If null, the element is
+     * removed from the template.
      */
     private void packTagValueAttribute(Element subtree, String tag, String attribute, String value) {
         Element e = (Element) subtree.getElementsByTagName(tag).item(0);
@@ -898,14 +932,13 @@ class XmlPacker {
      *     <(tag) (attribute)=(value)/>
      *     ....
      * </subtree>
-     * } </pre>
-     * or removes the element if the value is null.
-     * 
+     * } </pre> or removes the element if the value is null.
+     *
      * @param subtree Document subtree in which to look for the element
      * @param tag name of the element in which to pack the value
      * @param attribute name of the element attribute to receive the value
-     * @param value value to place in the attribute. If null, the element
-     * is removed from the template.
+     * @param value value to place in the attribute. If null, the element is
+     * removed from the template.
      */
     private void packTagAttribute(Element subtree, String tag, String attribute, String value) {
         Element e = (Element) subtree.getElementsByTagName(tag).item(0);
@@ -923,9 +956,8 @@ class XmlPacker {
      * <pre>
      * {@code
      * <tag (attribute)=(value)/>
-     * } </pre>
-     * or removes the element if the value is null.
-     * 
+     * } </pre> or removes the element if the value is null.
+     *
      * @param e the element whose attribute we are to pack
      * @param attribute the name of the attribute to pack
      * @param value the value to put in the attribute
@@ -956,13 +988,12 @@ class XmlPacker {
      *     </(tag)>
      *     ....
      * </subtree>
-     * } </pre>
-     * or removes the element if the value is null.
+     * } </pre> or removes the element if the value is null.
      *
      * @param subtree Document subtree in which to look for the element
      * @param tag name of the element in which to pack the value
-     * @param value value to pack in the element. If null, the element
-     * is removed from the template.
+     * @param value value to pack in the element. If null, the element is
+     * removed from the template.
      */
     private void packTagValue(Element subtree, String tag, String value) {
         Element e = (Element) subtree.getElementsByTagName(tag).item(0);
@@ -987,12 +1018,13 @@ class XmlPacker {
      *     <id root=(oid) extension=(value)>
      *     ....
      * </subtree>
-     * } </pre>
-     * or removes the id tag if the value is null.
+     * } </pre> or removes the id tag if the value is null.
      *
      * @param subtree head of subtree within which to look for the id element.
-     * @param oid the root attribute value for the id element we are looking for.
-     * @param value the value to assign to the id tag, or null if the id tag should be removed.
+     * @param oid the root attribute value for the id element we are looking
+     * for.
+     * @param value the value to assign to the id tag, or null if the id tag
+     * should be removed.
      */
     private void packId(Element subtree, String oid, String value) {
         Element id = commonGetId(subtree, oid);
@@ -1005,8 +1037,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a livingSubjectId subtree.
-     * Searches for a block matching the passed (oid) value:
+     * Packs a livingSubjectId subtree. Searches for a block matching the passed
+     * (oid) value:
      * <pre>
      * {@code
      * <subtree>
@@ -1017,12 +1049,14 @@ class XmlPacker {
      *     </livingSubjectId>
      *     ....
      * </subtree>
-     * } </pre>
-     * Inserts (value) into the block, or deletes the block if the supplied (value) is null.
-     * 
+     * } </pre> Inserts (value) into the block, or deletes the block if the
+     * supplied (value) is null.
+     *
      * @param subtree head of subtree within which to look for the id element.
-     * @param oid the root attribute value for the id element we are looking for.
-     * @param value the value to assign inside the livingSubjectId block, or null if the block should be removed.
+     * @param oid the root attribute value for the id element we are looking
+     * for.
+     * @param value the value to assign inside the livingSubjectId block, or
+     * null if the block should be removed.
      */
     private void packLivingSubjectId(Element subtree, String oid, String value) {
         Element id = commonGetLivingSubjectId(subtree, oid);
@@ -1045,11 +1079,11 @@ class XmlPacker {
     }
 
     /**
-     * Loads a XML message template into a <code>Document</code>.
-     * The message template file is assumed to be among the resources available
-     * to this class, in the "messages/" package relative to the package
-     * storing the current class. In other words, the XML message template files
-     * are packed into the .jar file containing this class.
+     * Loads a XML message template into a <code>Document</code>. The message
+     * template file is assumed to be among the resources available to this
+     * class, in the "messages/" package relative to the package storing the
+     * current class. In other words, the XML message template files are packed
+     * into the .jar file containing this class.
      * <p>
      * Note: If the caller has a pre-formed XML message to use as the template
      * instead of the fixed template, then it will be used instead.
@@ -1069,8 +1103,8 @@ class XmlPacker {
             } else {
                 is = XmlPacker.class.getResourceAsStream(templateFileName);
                 if (is == null) {
-                    Logger.getLogger(XmlPacker.class.getName()).log(Level.SEVERE, 
-                            "Unable to open template as resource: " + templateFileName);            
+                    Logger.getLogger(XmlPacker.class.getName()).log(Level.SEVERE,
+                            "Unable to open template as resource: " + templateFileName);
                 }
             }
             doc = db.parse(is);
@@ -1086,20 +1120,20 @@ class XmlPacker {
     }
 
     /**
-     * Removes all comments from a document.
-     * (Used recursively, removes all comments below this element Node.)
+     * Removes all comments from a document. (Used recursively, removes all
+     * comments below this element Node.)
      * <p>
      * The purpose of this method is so that XML comments may be used liberally
-     * within an XML template to document the expected values, and these comments
-     * may be removed before sending a protocol message using this template.
+     * within an XML template to document the expected values, and these
+     * comments may be removed before sending a protocol message using this
+     * template.
      * <p>
-     * If a comment is on a line by itself, the line is also removed.
-     * More precisely, if a comment node is preceeded by a text node consisting
-     * of nothing but white space, the preceeding text node (as well as the
+     * If a comment is on a line by itself, the line is also removed. More
+     * precisely, if a comment node is preceeded by a text node consisting of
+     * nothing but white space, the preceeding text node (as well as the
      * comment) is removed. This effectively removes the whole line if the
-     * comment is on the line by itself. It also removes any white space
-     * before the comment if the comment is on the end of the line after
-     * other tags.
+     * comment is on the line by itself. It also removes any white space before
+     * the comment if the comment is on the end of the line after other tags.
      *
      * @param node the Node below which we remove all comments.
      */
@@ -1123,21 +1157,20 @@ class XmlPacker {
     /**
      * Removes a node from the document node tree.
      * <p>
-     * If the node is on a line by itself, the line is also removed.
-     * More precisely, if the node is preceeded by a text node consisting
-     * of nothing but white space, the preceeding text node (as well as the
-     * node) is removed. This effectively removes the whole line if the
-     * node is on the line by itself. It also removes any white space
-     * before the node if the node is on the end of the line after
-     * another node.
+     * If the node is on a line by itself, the line is also removed. More
+     * precisely, if the node is preceeded by a text node consisting of nothing
+     * but white space, the preceeding text node (as well as the node) is
+     * removed. This effectively removes the whole line if the node is on the
+     * line by itself. It also removes any white space before the node if the
+     * node is on the end of the line after another node.
      *
      * @param n
-     * @return the number of nodes removed (1 if only the node was removed,
-     * 2 if a whitespace-only text node before it was also removed.)
-     * This may be useful to our caller if they are stepping through a
-     * list of nodes using an index. It tells them how many to subtract
-     * from the index to compensate for the deleted nodes and still
-     * properly evaluate all the nodes in the list.
+     * @return the number of nodes removed (1 if only the node was removed, 2 if
+     * a whitespace-only text node before it was also removed.) This may be
+     * useful to our caller if they are stepping through a list of nodes using
+     * an index. It tells them how many to subtract from the index to compensate
+     * for the deleted nodes and still properly evaluate all the nodes in the
+     * list.
      */
     private int packRemoveNode(Node n) {
         int numberRemoved = 1;
@@ -1154,8 +1187,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a Send Log Entry message into a document
-     * Uses LogEntry message type.
+     * Packs a Send Log Entry message into a document Uses LogEntry message
+     * type.
      *
      * @param m message to be packed
      * @return DOM Document structure
@@ -1188,8 +1221,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a value into a new <code>Element</code>, and links it to a parent <code>Element</code>.
-     * If the value is null , the new element is not added
+     * Packs a value into a new <code>Element</code>, and links it to a parent
+     * <code>Element</code>. If the value is null , the new element is not added
      *
      * @param doc the document we are packing into
      * @param parent parent element for our new element
@@ -1205,8 +1238,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a binary array of bytes into a hexadecimal-encoded string.
-     * If the byte array is <code>null</code>, returns <code>null</code>.
+     * Packs a binary array of bytes into a hexadecimal-encoded string. If the
+     * byte array is <code>null</code>, returns <code>null</code>.
      *
      * @param byteArray binary array of bytes to pack
      * @return the array of bytes encoded as a hexadecimal string
@@ -1227,7 +1260,7 @@ class XmlPacker {
 
     /**
      * Packs an integer value 0-15 into a single hex digit 0-F.
-     * 
+     *
      * @param val integer value 0-15 to pack
      * @return hex digit 0-F
      */
@@ -1240,8 +1273,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs the value of an enumerated type into a string.
-     * If the enumerated type is <code>null</code>, returns <code>null</code>.
+     * Packs the value of an enumerated type into a string. If the enumerated
+     * type is <code>null</code>, returns <code>null</code>.
      *
      * @param e the enumerated value to be packed
      * @return the original enumerated value, packed into a string
@@ -1255,8 +1288,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs the value of a boolean into a string.
-     * If the value is <code>false</code>, returns <code>null</code>.
+     * Packs the value of a boolean into a string. If the value is
+     * <code>false</code>, returns <code>null</code>.
      *
      * @param b the boolean value to be packed
      * @return the string, "true" if b is true, otherwise null.
@@ -1270,8 +1303,8 @@ class XmlPacker {
     }
 
     /**
-     * Packs a <code>Date</code> (not including time) into a string.
-     * If the date is <code>null</code>, returns <code>null</code>.
+     * Packs a <code>Date</code> (not including time) into a string. If the date
+     * is <code>null</code>, returns <code>null</code>.
      *
      * @param date the date value to be packed
      * @return <code>String</code> containing the packed date.
@@ -1384,12 +1417,13 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a generic HL7 person-related request message into a <code>Document</code>.
+     * Unpacks a generic HL7 person-related request message into a
+     * <code>Document</code>.
      * <p>
-     * Several of the HL7 person-related request messages use the same formatting
-     * rules, even though the templates differ. (The templates differ only
-     * in the boilerplate parts that do not concern us directly.)
-     * These messages are:
+     * Several of the HL7 person-related request messages use the same
+     * formatting rules, even though the templates differ. (The templates differ
+     * only in the boilerplate parts that do not concern us directly.) These
+     * messages are:
      * <p>
      * CREATE PERSON <br>
      * MODIFY PERSON <br>
@@ -1398,7 +1432,8 @@ class XmlPacker {
      * NOTIFY PERSON CHANGED
      *
      * @param m the message contents to fill in
-     * @param e root node of the person message <code>Document</code> parsed from XML
+     * @param e root node of the person message <code>Document</code> parsed
+     * from XML
      */
     private void unpackGenericPersonRequestMessage(Message m, Element e) {
         PersonRequest personRequest = new PersonRequest();
@@ -1414,18 +1449,20 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a generic HL7 person-related response message into a <code>Document</code>.
+     * Unpacks a generic HL7 person-related response message into a
+     * <code>Document</code>.
      * <p>
-     * Several of the HL7 person-related response messages use the same formatting
-     * rules, even though the templates differ. (The templates differ only
-     * in the boilerplate parts that do not concern us directly.)
-     * These messages are:
+     * Several of the HL7 person-related response messages use the same
+     * formatting rules, even though the templates differ. (The templates differ
+     * only in the boilerplate parts that do not concern us directly.) These
+     * messages are:
      * <p>
      * CREATE PERSON ACCEPTED <br>
      * MODIFY PERSON ACCEPTED <br>
      *
      * @param m the message contents to fill in
-     * @param e root node of the person message <code>Document</code> parsed from XML
+     * @param e root node of the person message <code>Document</code> parsed
+     * from XML
      */
     private void unpackGenericPersonResponseMessage(Message m, Element e) {
         PersonResponse personResponse = new PersonResponse();
@@ -1483,6 +1520,10 @@ class XmlPacker {
         unpackLivingSubjectPersonIdentifiers(p, q, OID_CCC_UNIVERSAL_UNIQUE_ID, PersonIdentifier.Type.cccUniqueId);
         unpackLivingSubjectPersonIdentifiers(p, q, OID_CCC_LOCAL_PATIENT_ID, PersonIdentifier.Type.cccLocalId);
         unpackLivingSubjectPersonIdentifiers(p, q, KISUMU_HDSS_ID, PersonIdentifier.Type.kisumuHdssId);
+        unpackLivingSubjectPersonIdentifiers(p, q, OID_NUPI, PersonIdentifier.Type.nupi);
+        unpackLivingSubjectPersonIdentifiers(p, q, OID_TEL_NO, PersonIdentifier.Type.telNo);
+        unpackLivingSubjectPersonIdentifiers(p, q, OID_NATIONAL_ID, PersonIdentifier.Type.nationalId);
+        unpackLivingSubjectPersonIdentifiers(p, q, OID_PARENT_TEL_NO, PersonIdentifier.Type.parentTelNo);
         unpackLivingSubjectFingerprints(p, q, OID_FINGERPRINT_LEFT_INDEX, Fingerprint.Type.leftIndexFinger);
         unpackLivingSubjectFingerprints(p, q, OID_FINGERPRINT_LEFT_MIDDLE, Fingerprint.Type.leftMiddleFinger);
         unpackLivingSubjectFingerprints(p, q, OID_FINGERPRINT_LEFT_RING, Fingerprint.Type.leftRingFinger);
@@ -1493,7 +1534,8 @@ class XmlPacker {
 
     /**
      * Unpacks a find person response <code>Document</code> into message data.
-     * Uses HL7 Patient Registry Find Candidates Query Response, PRPA_IN201306UV02.
+     * Uses HL7 Patient Registry Find Candidates Query Response,
+     * PRPA_IN201306UV02.
      *
      * @param m the message contents to fill in
      * @param e root of the person message <code>Document</code> parsed from XML
@@ -1518,9 +1560,10 @@ class XmlPacker {
 
     /**
      * Unpack a candidate in a findPerson response.
-     * 
+     *
      * @param p the person data to fill in
-     * @param e head of the <code>Document</code> subtree in which this person is found
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is found
      */
     private void unpackCandidate(Person p, Element e) {
         unpackPerson(p, e);
@@ -1532,7 +1575,8 @@ class XmlPacker {
      * Unpacks related persons into person data
      *
      * @param p the person data to fill in
-     * @param e head of the <code>Document</code> subtree in which this person is found
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is found
      */
     private void unpackRelatedPersons(Person p, Element e) {
         NodeList nodeList = e.getElementsByTagName("personalRelationship");
@@ -1580,7 +1624,8 @@ class XmlPacker {
      * Unpacks a person document subtree into person data
      *
      * @param p the person data to fill in
-     * @param e head of the <code>Document</code> subtree in which this person is found
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is found
      */
     private void unpackPerson(Person p, Element e) {
         unpackPersonName(p, e, "name");
@@ -1615,7 +1660,10 @@ class XmlPacker {
         unpackPersonIdentifiers(p, e, OID_MASTER_PATIENT_REGISTRY_ID, PersonIdentifier.Type.masterPatientRegistryId);
         unpackPersonIdentifiers(p, e, OID_CCC_UNIVERSAL_UNIQUE_ID, PersonIdentifier.Type.cccUniqueId);
         unpackPersonIdentifiers(p, e, OID_CCC_LOCAL_PATIENT_ID, PersonIdentifier.Type.cccLocalId);
-        unpackPersonIdentifiers(p, e, KISUMU_HDSS_ID, PersonIdentifier.Type.kisumuHdssId);
+        unpackPersonIdentifiers(p, e, OID_NUPI, PersonIdentifier.Type.nupi);
+        unpackPersonIdentifiers(p, e, OID_TEL_NO, PersonIdentifier.Type.telNo);
+        unpackPersonIdentifiers(p, e, OID_NATIONAL_ID, PersonIdentifier.Type.nationalId);
+        unpackPersonIdentifiers(p, e, OID_PARENT_TEL_NO, PersonIdentifier.Type.parentTelNo);
         unpackFingerprints(p, e, OID_FINGERPRINT_LEFT_INDEX, Fingerprint.Type.leftIndexFinger);
         unpackFingerprints(p, e, OID_FINGERPRINT_LEFT_MIDDLE, Fingerprint.Type.leftMiddleFinger);
         unpackFingerprints(p, e, OID_FINGERPRINT_LEFT_RING, Fingerprint.Type.leftRingFinger);
@@ -1625,12 +1673,13 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a person name into a <code>Person</code> object.
-     * For findPerson the tagname containing the name elements is
-     * "livingSubjectName". For other person messages the tagName is "name".
+     * Unpacks a person name into a <code>Person</code> object. For findPerson
+     * the tagname containing the name elements is "livingSubjectName". For
+     * other person messages the tagName is "name".
      *
      * @param p the person data into which to put the person name.
-     * @param e head of the <code>Document</code> subtree in which this person is found
+     * @param e head of the <code>Document</code> subtree in which this person
+     * is found
      * @param tagName name of the enclosing element for the person's name
      */
     private void unpackPersonName(Person p, Element e, String tagName) {
@@ -1648,15 +1697,18 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks visit information into a <code>Visit</code>. If any of the
-     * visit information is present, allocates a <code>Visit</code> object
-     * and sets the information into the object. If none of the visit
-     * information is present, returns <code>null</code>.
+     * Unpacks visit information into a <code>Visit</code>. If any of the visit
+     * information is present, allocates a <code>Visit</code> object and sets
+     * the information into the object. If none of the visit information is
+     * present, returns <code>null</code>.
      *
-     * @param e head of the <code>Document</code> subtree in which this visit is found
+     * @param e head of the <code>Document</code> subtree in which this visit is
+     * found
      * @param oidVisitDate OID for the XML id tag containing the visit date
-     * @param oidVisitAddress OID for the XML id tag containing the visit address
-     * @param oidVisitFacilityName OID for the XML id tag containing the facility name
+     * @param oidVisitAddress OID for the XML id tag containing the visit
+     * address
+     * @param oidVisitFacilityName OID for the XML id tag containing the
+     * facility name
      * @return v unpacked visit data
      */
     private Visit unpackVisit(Element e, String oidVisitDate, String oidVisitAddress, String oidVisitFacilityName) {
@@ -1676,17 +1728,20 @@ class XmlPacker {
     /**
      * Unpacks all ID-tagged person identifiers of a given type.
      * <p>
-     * Searches through all the person identifiers in a <code>Document</code> subtree
-     * to find identifiers of the given type. For each such identifier, allocates
-     * a <code>PersonIdentifier</code> object and attaches it to the <code>Person</code> object.
+     * Searches through all the person identifiers in a <code>Document</code>
+     * subtree to find identifiers of the given type. For each such identifier,
+     * allocates a <code>PersonIdentifier</code> object and attaches it to the
+     * <code>Person</code> object.
      * <p>
-     * An identifier of type patientRegistryId is unpacked into the person.personGuid field.
-     * All other identifiers are unpacked into the array of PersonIdentifier.
-     * 
+     * An identifier of type patientRegistryId is unpacked into the
+     * person.personGuid field. All other identifiers are unpacked into the
+     * array of PersonIdentifier.
+     *
      * @param p person information
-     * @param e head of the <code>Document</code> subtree in which
-     * these person identifiers are to be found
-     * @param oidPersonIdentifier the XML template OID for this person identifier type
+     * @param e head of the <code>Document</code> subtree in which these person
+     * identifiers are to be found
+     * @param oidPersonIdentifier the XML template OID for this person
+     * identifier type
      * @param type the person identifier type
      */
     private void unpackPersonIdentifiers(Person p, Element e, String oidPersonIdentifier, PersonIdentifier.Type type) {
@@ -1709,14 +1764,16 @@ class XmlPacker {
     /**
      * Unpacks all LivingSubjectID-tagged person identifiers of a given type.
      * <p>
-     * Searches through all the LivingSubject person identifiers in a <code>Document</code> subtree
-     * to find identifiers of the given type. For each such identifier, allocates
-     * a <code>PersonIdentifier</code> object and attaches it to the <code>Person</code> object.
+     * Searches through all the LivingSubject person identifiers in a
+     * <code>Document</code> subtree to find identifiers of the given type. For
+     * each such identifier, allocates a <code>PersonIdentifier</code> object
+     * and attaches it to the <code>Person</code> object.
      *
      * @param p person information
-     * @param e head of the <code>Document</code> subtree in which
-     * these person identifiers are to be found
-     * @param oidPersonIdentifier the XML template OID for this person identifier type
+     * @param e head of the <code>Document</code> subtree in which these person
+     * identifiers are to be found
+     * @param oidPersonIdentifier the XML template OID for this person
+     * identifier type
      * @param type the person identifier type
      */
     private void unpackLivingSubjectPersonIdentifiers(Person p, Element e, String oidPersonIdentifier, PersonIdentifier.Type type) {
@@ -1736,18 +1793,19 @@ class XmlPacker {
     /**
      * Unpacks all ID-tagged fingerprints of a given type.
      * <p>
-     * Searches through all the person identifiers in a <code>Document</code> subtree
-     * to find identifiers of the given type. For each such identifier, allocates
-     * a <code>PersonIdentifier</code> object and attaches it to the <code>Person</code> object.
+     * Searches through all the person identifiers in a <code>Document</code>
+     * subtree to find identifiers of the given type. For each such identifier,
+     * allocates a <code>PersonIdentifier</code> object and attaches it to the
+     * <code>Person</code> object.
      * <p>
-     * Note that we don't really expect multiple fingerprints of the same type in the
-     * same message. But the list of fingerprints in the <code>Person</code> object
-     * allows for this possibility, as does the XML message template. So this
-     * method also allows for this possibility.
+     * Note that we don't really expect multiple fingerprints of the same type
+     * in the same message. But the list of fingerprints in the
+     * <code>Person</code> object allows for this possibility, as does the XML
+     * message template. So this method also allows for this possibility.
      *
      * @param p person information
-     * @param e head of the <code>Document</code> subtree in which
-     * these fingerprints are to be found
+     * @param e head of the <code>Document</code> subtree in which these
+     * fingerprints are to be found
      * @param oidFingerprint the XML template OID for this fingerprint type
      * @param type fingerprint type
      */
@@ -1767,18 +1825,19 @@ class XmlPacker {
     /**
      * Unpacks all LivingSubjectID-tagged fingerprints of a given type.
      * <p>
-     * Searches through all the person identifiers in a <code>Document</code> subtree
-     * to find identifiers of the given type. For each such identifier, allocates
-     * a <code>PersonIdentifier</code> object and attaches it to the <code>Person</code> object.
+     * Searches through all the person identifiers in a <code>Document</code>
+     * subtree to find identifiers of the given type. For each such identifier,
+     * allocates a <code>PersonIdentifier</code> object and attaches it to the
+     * <code>Person</code> object.
      * <p>
-     * Note that we don't really expect multiple fingerprints of the same type in the
-     * same message. But the list of fingerprints in the <code>Person</code> object
-     * allows for this possibility, as does the XML message template. So this
-     * method also allows for this possibility.
+     * Note that we don't really expect multiple fingerprints of the same type
+     * in the same message. But the list of fingerprints in the
+     * <code>Person</code> object allows for this possibility, as does the XML
+     * message template. So this method also allows for this possibility.
      *
      * @param p person information
-     * @param e head of the <code>Document</code> subtree in which
-     * these fingerprints are to be found
+     * @param e head of the <code>Document</code> subtree in which these
+     * fingerprints are to be found
      * @param oidFingerprint the XML template OID for this fingerprint type
      * @param type fingerprint type
      */
@@ -1817,8 +1876,8 @@ class XmlPacker {
     }
 
     /**
-     * Finds a list of &lt;LivingSubjectId&gt; elements whose value element
-     * has a given "root" attribute value.
+     * Finds a list of &lt;LivingSubjectId&gt; elements whose value element has
+     * a given "root" attribute value.
      *
      * @param subtree head of the subtree in which to search
      * @param name root attribute value to search for
@@ -1932,8 +1991,8 @@ class XmlPacker {
      *
      * @param subtree Document subtree in which to look for the element
      * @param tag name of the element from which to unpack the value
-     * @return value value of the element. If the element was not found,
-     * returns null.
+     * @return value value of the element. If the element was not found, returns
+     * null.
      */
     private String unpackTagValue(Element subtree, String tag) {
         Element e = (Element) subtree.getElementsByTagName(tag).item(0);
@@ -1957,7 +2016,8 @@ class XmlPacker {
      * <p>
      *
      * @param subtree head of subtree within which to look for the id element.
-     * @param oid the root attribute value for the id element we are looking for.
+     * @param oid the root attribute value for the id element we are looking
+     * for.
      * @return value of the extension attribute, or null if tag not found.
      */
     private String unpackId(Element subtree, String oid) {
@@ -1972,8 +2032,8 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a livingSubjectId subtree.
-     * Searches for a block matching the passed (oid) value:
+     * Unpacks a livingSubjectId subtree. Searches for a block matching the
+     * passed (oid) value:
      * <pre>
      * {@code
      * <subtree>
@@ -1985,11 +2045,12 @@ class XmlPacker {
      *     ....
      * </subtree>
      * }
-     *</pre>
-     * Returns the extension value if found, or null if not.
+     * </pre> Returns the extension value if found, or null if not.
      *
-     * @param subtree head of subtree within which to look for the livingSubjectId element.
-     * @param oid the root attribute value for the id element we are looking for.
+     * @param subtree head of subtree within which to look for the
+     * livingSubjectId element.
+     * @param oid the root attribute value for the id element we are looking
+     * for.
      * @return value of the extension attribute, or null if tag not found.
      */
     private String unpackLivingSubjectId(Element subtree, String oid) {
@@ -2007,8 +2068,8 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a Log Entry <code>Document</code> into message data.
-     * Uses LogEntry message type.
+     * Unpacks a Log Entry <code>Document</code> into message data. Uses
+     * LogEntry message type.
      *
      * @param m the message contents to fill in
      * @param e root of the person message <code>Document</code> parsed from XML
@@ -2024,8 +2085,8 @@ class XmlPacker {
     }
 
     /**
-     * Unpacks a Work message <code>Document</code> into message data.
-     * Uses Work message type.
+     * Unpacks a Work message <code>Document</code> into message data. Uses Work
+     * message type.
      *
      * @param m the message contents to fill in
      * @param e root of the person message <code>Document</code> parsed from XML
@@ -2042,8 +2103,8 @@ class XmlPacker {
      * Unpacks a hexadecimal-encoded string into a binary byte array.
      *
      * @param hex the hexadecimal string to unpack
-     * @return the resulting binary byte array.
-     * Returns null if the hex string was null.
+     * @return the resulting binary byte array. Returns null if the hex string
+     * was null.
      */
     private byte[] unpackByteArray(String hex) {
         byte[] bytes = null;
@@ -2105,8 +2166,8 @@ class XmlPacker {
      * Unpacks a <code>String</code> date into a <code>Date</code>
      *
      * @param sDate contains the date in <code>String</code> format
-     * @return the date in <code>Date</code> format.
-     * Returns null if the date string was null.
+     * @return the date in <code>Date</code> format. Returns null if the date
+     * string was null.
      */
     private Date unpackDate(String sDate) {
         Date returnDate = null;
@@ -2124,8 +2185,8 @@ class XmlPacker {
      * Unpacks a <code>String</code> date and time into a <code>Date</code>
      *
      * @param sDateTime contains date and time
-     * @return the date and time in <code>Date</code> format
-     * Returns null if the date and time string was null.
+     * @return the date and time in <code>Date</code> format Returns null if the
+     * date and time string was null.
      */
     private Date unpackDateTime(String sDateTime) {
         Date returnDateTime = null;
@@ -2147,8 +2208,8 @@ class XmlPacker {
      * ---------------------------------------------------------------------------------------
      */
     /**
-     * Finds an id element with a given root OID attribute value,
-     * or <code>null</code> if not found.
+     * Finds an id element with a given root OID attribute value, or
+     * <code>null</code> if not found.
      * <pre>
      * {@code
      * <id root=(oid) ...>
@@ -2171,7 +2232,7 @@ class XmlPacker {
         // the node we are looking for before we reach the end of the list.
         NodeList idList = subtree.getElementsByTagName("id");
         Element id;
-        for (int i = 0; (id = (Element)idList.item(i)) != null; i++) {
+        for (int i = 0; (id = (Element) idList.item(i)) != null; i++) {
             Node aRoot = id.getAttributeNode("root");
             if (aRoot != null && aRoot.getNodeValue().equals(oid)) {
                 return id;
@@ -2197,7 +2258,7 @@ class XmlPacker {
     private Element commonGetLivingSubjectId(Element subtree, String oid) {
         NodeList idList = subtree.getElementsByTagName("livingSubjectId");
         Element id;
-        for (int i = 0; (id = (Element)idList.item(i)) != null; i++) {
+        for (int i = 0; (id = (Element) idList.item(i)) != null; i++) {
             Element eVal = (Element) id.getElementsByTagName("value").item(0);
             if (eVal != null) {
                 Node aRoot = eVal.getAttributeNode("root");

@@ -25,14 +25,14 @@
 package ke.go.moh.oec;
 
 /**
- * An identifier that has been assigned to a person by one of the systems
- * using OpenEMRConnect.
+ * An identifier that has been assigned to a person by one of the systems using
+ * OpenEMRConnect.
  * <p>
- * A person may be assigned one or more identifiers. A person may also be assigned
- * no identifier. For example, a person when they first visits a clinic
- * may be identified and entered into a person index database, but they may
- * not yet been registered by that clinic and assigned a patient identifier.
- * 
+ * A person may be assigned one or more identifiers. A person may also be
+ * assigned no identifier. For example, a person when they first visits a clinic
+ * may be identified and entered into a person index database, but they may not
+ * yet been registered by that clinic and assigned a patient identifier.
+ *
  * @author Jim Grace
  */
 public class PersonIdentifier {
@@ -43,7 +43,11 @@ public class PersonIdentifier {
         masterPatientRegistryId,
         cccUniqueId,
         cccLocalId,
-        kisumuHdssId
+        kisumuHdssId,
+        nupi,
+        telNo,
+        nationalId,
+        parentTelNo
     }
     /**
      * The type of person identifier.
